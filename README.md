@@ -61,27 +61,27 @@ Classification was performed on 4 different scenarios: supervised and semi-super
 
 Comparing between the supervised and semi-supervised cases in Figure 1, it can be seen that the semi-supervised cases performed better than their supervised counterparts in both feature sets. The performance differential is greater between each case in the lower proportions, whereas in the upper proportion of labeled data, the performances start to plateau and it appears that the models are converging on an optimal configuration. It can also be seen that at higher proportions of labeled data, the supervised and semi-supervised model performance is converging. This is because the training data used is becoming more and more similar, as the number of unlabeled data decreases along the x axis. 
 
-![OOS Accuracy Curves](test-accuracy-ci.png)
+![OOS Accuracy Curves](./plots/test-accuracy-ci.png)
 
 Figure 1. VGG-ish and MFCC performance on semi-supervised and supervised learning within two standard deviation confidence interval.
 
 To test if the distribution of accuracies between the supervised and semi-supervised cases were different, a Kolmogorov-Smirnov (K-S) test was performed between each set of distributions. The K-S statistic showed a statistically significant difference in both feature sets for proportions of labeled data at 50% and below. Above 50%, training on the mix of unlabeled and labeled dataset becomes less critical. This may just be because the accuracy is starting to plateau even in the supervised case, so adding more data isn’t going to improve performance much.
 
-![K-S Test](ks-test.png)
+![K-S Test](./plots/ks-test.png)
 
 Figure 2. The K-S statistic between the semi-supervised and supervised accuracy curves for both VGGish and MFCCs, plotted against the KS test critical value. The green portions are locations where the distributions are significantly different and the red portions are where they are not.
 
 To visualize how the classification performance fairs between each class, confusion matrices are plotted (see Figures 3 & 4). They show the number of times that each class was predicted to be a specific class. Perfect classification would look like an identity matrix, while random choice would be a matrix of equally distributed values. The confusion matrices are shown for a subset of label proportions that were deemed to be representative of the model states, judging by the accuracy curves. The confusion matrices are shown for VGGish features in the semi-supervised and supervised cases. Looking at the classification of car horn samples in the supervised case, it can be seen that the predicted labels are pretty evenly split between car horn and street music, and to a lesser extent, siren. However when we look at the semi-supervised case, we can see that the unlabeled data actually reinforced the street music label and reduced the occurrence of the true label. This effect decreases as more labels are added, though with 30% labeled data, car horn is still classed as street music higher in the semi-supervised case than in the supervised case. This may be because there are relatively few samples available for car horn in the dataset compared to the other classes. In the sparse label case where only 5% of the data was labeled, a reduction in the mis-classified (off-diagonal) samples can be seen in the semi-supervised case.
 
-![VGGish Semi-Supervised Confusion Matrix](conf_matrix_vggish_0.05,0.3,0.7.png)
+![VGGish Semi-Supervised Confusion Matrix](./plots/conf_matrix_vggish_0.05,0.3,0.7.png)
 
-![VGGish Supervised Confusion Matrix](conf_matrix_vggish_sup_0.05,0.3,0.7.png)
+![VGGish Supervised Confusion Matrix](./plots/conf_matrix_vggish_sup_0.05,0.3,0.7.png)
 
 Figure 3 & 4. The confusion matrices for models trained on VGGish embeddings using semi-supervised and supervised learning, (respectively along rows). The classification performance is shown for the labeled data proportions: 0.05, 0.3, and 0.7.
 
 In order to get a better understanding of the features used, a dimensionality technique was used to reduce the high dimensional feature space into two dimensions so that it could be plotted. For this task, t-distributed stochastic neighbor embedding (t-SNE) is a popular and powerful technique for reducing a dataset’s dimensionality while preserving local neighborhood relationships. The embeddings for both VGGish and MFCCs can be seen in Figure 5. Looking at the grouping of points in each plot, VGGish has clear, large clusters of samples with the same class, whereas this clustering is not seen in MFCCs. This shows that the feature representation of VGGish is more semantically meaningful and contains more information that characterizes the classes.  
 
-![t-SNE Visualization](tsne_results.png)
+![t-SNE Visualization](./plots/tsne_results.png)
 
 Figure 5. The t-SNE embeddings of the VGGish and MFCC features, with colors corresponding to the class labels.
 
